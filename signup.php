@@ -112,23 +112,25 @@ mysqli_query($conn, "set names 'utf8'");
 
         if ($password != $repass) {
             echo "<script>window.location='signup.php?error=Mật khẩu nhập lại không khớp!'</script>";
+            die();
         }
         $check_masv = mysqli_num_rows(mysqli_query($conn, "Select * from sinhvien where masv='$username'"));
         if ($check_masv > 0) {
             echo "<script>window.location='signup.php?error=Mã sinh viên nhập đã đăng ký trước đó!'</script>";
+            die();
         }
 
         $insert = "INSERT INTO sinhvien (masv, matkhau, hoten, lop, ngaysinh, gioitinh, quequan, email)
                     VALUES ('$username', '$password', '$hoten', '$lop', '$ngaysinh', '$gioitinh', '$quequan', '$email')";
 
         if (mysqli_query($conn, $insert)) {
-            mysqli_close($conn);
             echo '<script>alert("Đăng ký thành công. Quay về trang đăng nhập");';
             echo 'window.location.href="login.php";</script>';
         } else {
             echo "<script>window.location='signup.php?error=Lỗi đăng ký tài khoản!'</script>";
         }
     }
+    mysqli_close($conn);
     ?>
 </body>
 

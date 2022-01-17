@@ -11,14 +11,14 @@
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="dk_detai.php">Đăng kí đề tài</a>
+                        <a class="nav-link" href="index.php">Quản lý đề tài</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="info_detai.php">Thông tin đề tài</a>
+                        <a class="nav-link" href="lich_gv.php">Lịch</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <a class="navbar-brand" href="info.php">Chào - <?php echo $_SESSION['username'] ?></a>
+                    <a class="navbar-brand" href="info_gv.php">Chào - <?php echo $_SESSION['username'] ?></a>
                     <input name="logout" class="btn btn-secondary my-2 my-sm-0" type="submit" value="Đăng xuất">
                     <?php
                     if (isset($_GET['logout'])) {

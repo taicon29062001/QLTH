@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['loaitk'] == 'gv') {
+if (!isset($_SESSION['username']) || $_SESSION['loaitk'] == 'sv') {
     echo "<script>window.location='login.php'</script>";
 }
 
@@ -14,10 +14,8 @@ mysqli_query($conn, "set names 'utf8'");
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thay đổi mật khẩu</title>
 
@@ -47,9 +45,8 @@ mysqli_query($conn, "set names 'utf8'");
         }
     </style>
 </head>
-
 <body>
-    <?php include('header.php') ?>
+    <?php include('header_gv.php') ?>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -75,40 +72,39 @@ mysqli_query($conn, "set names 'utf8'");
 
                     <input type="submit" name="change_pass" class="btn btn-secondary mt-4 w-100" value="Thay đổi mật khẩu">
                 </form>
-                <p class="mt-4"><a href="info.php">Quay lại</a></p>
+                <p class="mt-4"><a href="info_gv.php">Quay lại</a></p>
             </div>
         </div>
     </div>
     <?php
     if (isset($_POST['change_pass'])) {
-        $username = $_SESSION['username'];
+        $magv = $_SESSION['username'];
         $mkcu = $_POST['mkcu'];
         $mkmoi = $_POST['mkmoi'];
         $xnmkmoi = $_POST['xnmkmoi'];
 
         if ($mkmoi != $xnmkmoi) {
-            echo "<script>window.location='change_pass.php?error=Mật khẩu nhập lại không khớp!'</script>";
+            echo "<script>window.location='change_pass_gv.php?error=Mật khẩu nhập lại không khớp!'</script>";
             die();
         }
 
-        $check_mk = mysqli_num_rows(mysqli_query($conn, "Select * from sinhvien where masv='$username' and matkhau='$mkcu'"));
+        $check_mk = mysqli_num_rows(mysqli_query($conn, "Select * from giangvien where magv='$magv' and matkhau='$mkcu'"));
         if ($check_mk == 0) {
-            echo "<script>window.location='change_pass.php?error=Mật khẩu cũ nhập lại không đúng!'</script>";
+            echo "<script>window.location='change_pass_gv.php?error=Mật khẩu cũ nhập lại không đúng!'</script>";
             die();
         }
 
-        $update = "Update sinhvien set matkhau = '" . $mkmoi . "' where masv = '$username'";
+        $update = "Update giangvien set matkhau = '" . $mkmoi . "' where magv = '$magv'";
 
         if (mysqli_query($conn, $update)) {
-            echo "<script>window.location='change_pass.php?changed'</script>";
+            echo "<script>window.location='change_pass_gv.php?changed'</script>";
             die();
         } else {
-            echo "<script>window.location='change_pass.php?error=Lỗi thay đổi mật khẩu!'</script>";
+            echo "<script>window.location='change_pass_gv.php?error=Lỗi thay đổi mật khẩu!'</script>";
             die();
         }
     }
     mysqli_close($conn);
     ?>
 </body>
-
 </html>

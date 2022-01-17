@@ -1,7 +1,11 @@
 <?php
 session_start();
 if (isset($_SESSION['username'])) {
-    echo "<script>window.location='index.php'</script>";
+    if ($_SESSION['loaitk'] == 'gv') {
+        echo "<script>window.location='index.php'</script>";
+    } else {
+        echo "<script>window.location='info_detai.php'</script>";
+    }
 }
 $conn = mysqli_connect('localhost', 'root', '', 'qlthuchanh') or die('Lỗi kết nối');
 mysqli_query($conn, "set names 'utf8'");
@@ -76,13 +80,23 @@ mysqli_query($conn, "set names 'utf8'");
         $row = mysqli_fetch_array($query);
         if (is_array($row)) {
             $_SESSION['username'] = $row['masv'];
-            $_SESSION['password'] = $row['matkhau'];
-            mysqli_close($conn);
-            echo "<script>window.location='index.php'</script>";
-        } else {
-            echo "<script>window.location='login.php?error=Sai tên đăng nhập hoặc mật khẩu!'</script>";
+            $_SESSION['loaitk'] = 'sv';
+            echo "<script>window.location='info_detai.php'</script>";
+            die();
         }
+
+        $query = mysqli_query($conn, "Select * from giangvien where magv = '$username' and matkhau = '$password'");
+        $row = mysqli_fetch_array($query);
+        if (is_array($row)) {
+            $_SESSION['username'] = $row['magv'];
+            $_SESSION['loaitk'] = 'gv';
+            echo "<script>window.location='index.php'</script>";
+            die();
+        }
+
+        echo "<script>window.location='login.php?error=Sai tên đăng nhập hoặc mật khẩu!'</script>";
     }
+    mysqli_close($conn);
     ?>
 </body>
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username']) || $_SESSION['loaitk'] == 'gv') {
     echo "<script>window.location='login.php'</script>";
 }
 
@@ -65,35 +65,46 @@ $row_dt = mysqli_fetch_array($query_dt);
                     <td>
                         <div class="col-form-label">Mã đề tài:</div>
                     </td>
-                    <td><input class="form-control-plaintext" type="text" name="id" value="<?php echo $row_dt['id']; ?>" readonly>
+                    <td><input class="form-control-plaintext" type="text" name="id" value="<?php echo $row_dt['id']; ?>" readonly></td>
                 </tr>
 
                 <tr>
                     <td>
                         <div class="col-form-label">Tên đề tài:</div>
                     </td>
-                    <td><input class="form-control-plaintext" type="text" name="tendetai" value="<?php echo $row_dt['tendetai']; ?>" readonly>
+                    <td><input class="form-control-plaintext" type="text" name="tendetai" value="<?php echo $row_dt['tendetai']; ?>" readonly></td>
                 </tr>
 
                 <tr>
                     <td>
                         <div class="col-form-label">Số lượng sinh viên:</div>
                     </td>
-                    <td><input class="form-control-plaintext" type="text" name="soluongsv" value="<?php echo $row_dt['soluongsv']; ?>" readonly>
+                    <td><input class="form-control-plaintext" type="text" name="soluongsv" value="<?php echo $row_dt['soluongsv']; ?>" readonly></td>
                 </tr>
 
                 <tr>
                     <td>
                         <div class="col-form-label">Số lượng tối đa:</div>
                     </td>
-                    <td><input class="form-control-plaintext" type="text" name="soluongtoida" value="<?php echo $row_dt['soluongtoida']; ?>" readonly>
+                    <td><input class="form-control-plaintext" type="text" name="soluongtoida" value="<?php echo $row_dt['soluongtoida']; ?>" readonly></td>
                 </tr>
 
                 <tr>
                     <td>
                         <div class="col-form-label">Ngày học:</div>
                     </td>
-                    <td><input class="form-control-plaintext" type="text" name="thu" value="<?php echo 'Thứ ' . $row_dt['thu']; ?>" readonly>
+                    <td><input class="form-control-plaintext" type="text" name="thu" value="<?php echo 'Thứ ' . $row_dt['thu']; ?>" readonly></td>
+                </tr>
+
+                <?php
+                $query_gv = mysqli_query($conn, "Select * from giangvien where magv= '" . $row_dt['magv'] . "'");
+                $gv = mysqli_fetch_array($query_gv);
+                ?>
+                <tr>
+                    <td>
+                        <div class="col-form-label">Giảng viên:</div>
+                    </td>
+                    <td><input class="form-control-plaintext" type="text" name="hoten_gv" value="<?php echo $gv['hoten']; ?>" readonly></td>
                 </tr>
 
                 <tr>
@@ -145,6 +156,7 @@ $row_dt = mysqli_fetch_array($query_dt);
                         } else {
                             echo "<td>" . $row['nopbai'] . "</td>";
                         }
+                        echo "<td>" . $row['nhanxet'] . "</td>";
                         echo "</tr>";
                     }
                     ?>
@@ -185,6 +197,7 @@ $row_dt = mysqli_fetch_array($query_dt);
                         echo '<script>alert("Upload file thất bại!")</script>';
                     }
                 }
+                mysqli_close($conn);
                 ?>
             </div>
         </div>

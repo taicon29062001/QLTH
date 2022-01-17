@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username']) || $_SESSION['loaitk'] == 'gv') {
     echo "<script>window.location='login.php'</script>";
 }
 
@@ -44,6 +44,7 @@ if ($check > 0) {
                 <th scope="col">Số lượng sinh viên</th>
                 <th scope="col">Số lượng tối đa</th>
                 <th scope="col">Thứ</th>
+                <th scope="col">Giảng viên</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -74,6 +75,9 @@ if ($check > 0) {
                     echo "<td>" . $row['soluongsv'] . "</td>";
                     echo "<td>" . $row['soluongtoida'] . "</td>";
                     echo "<td>" . $row['thu'] . "</td>";
+                    $query_gv = mysqli_query($conn, "Select * from giangvien where magv= '" . $row['magv'] . "'");
+                    $gv = mysqli_fetch_array($query_gv);
+                    echo "<td>" . $gv['hoten'] . "</td>";
                     echo "<td><a class='btn btn-primary' href='dk_detai?id=" . $row['id'] . "'>Đăng ký</a></td>";
                     echo "</tr>";
                 }
@@ -112,7 +116,6 @@ if ($check > 0) {
         if (mysqli_query($conn, $insert)) {
             $update = "Update detai set soluongsv = soluongsv + 1 where id = '$id'";
             if (mysqli_query($conn, $update)) {
-                mysqli_close($conn);
                 echo '<script>alert("Đăng ký thành công.");';
                 echo 'window.location.href="info_detai.php";</script>';
             } else {
@@ -122,6 +125,7 @@ if ($check > 0) {
             echo '<script>alert("Lỗi đăng ký đề tài")</script>';
         }
     }
+    mysqli_close($conn);
     ?>
 </body>
 
