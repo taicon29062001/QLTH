@@ -101,6 +101,13 @@ mysqli_query($conn, "set names 'utf8'");
     <?php
     if (isset($_POST['signup'])) {
         $username = $_POST['username'];
+
+        $check_masvdk = mysqli_num_rows(mysqli_query($conn, "Select * from dsdk where masv='$username'"));
+        if ($check_masvdk <= 0) {
+            echo "<script>window.location='signup.php?error=Mã sinh viên không cho phép đăng ký!'</script>";
+            die();
+        }
+
         $password = $_POST['password'];
         $repass = $_POST['repass'];
         $hoten = $_POST['hoten'];

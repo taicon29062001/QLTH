@@ -17,11 +17,11 @@
                         <a class="nav-link" href="info_detai.php">Thông tin đề tài</a>
                     </li>
                 </ul>
-                <form class="d-flex">
+                <form class="d-flex" method="POST">
                     <a class="navbar-brand" href="info.php">Chào - <?php echo $_SESSION['username'] ?></a>
                     <input name="logout" class="btn btn-secondary my-2 my-sm-0" type="submit" value="Đăng xuất">
                     <?php
-                    if (isset($_GET['logout'])) {
+                    if (isset($_POST['logout'])) {
                         session_destroy();
                         echo "<script>window.location='login.php'</script>";
                     }
